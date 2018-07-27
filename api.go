@@ -9,9 +9,8 @@ import (
 
 //GET
 
-//func (cn *Controller) allPersons(....)  (error) { }
-func getAllPersons(c echo.Context) error {
-	pers, err := allPersons()
+func (cn *Controller) getAllPersons(c echo.Context) error {
+	pers, err := cn.allPersons()
 
 	if err != nil {
 		fmt.Println("ERROR QUERY ALL PERSONS")
@@ -30,10 +29,14 @@ func getAllPersons(c echo.Context) error {
 	})
 }
 
-func getPerson(c echo.Context) error {
+/*func getAllPersons(c echo.Context) error {
+
+}*/
+
+func (cn *Controller) getPerson(c echo.Context) error {
 
 	id := c.Param("id")
-	pers, err := personByID(id)
+	pers, err := cn.personByID(id)
 
 	if err != nil || len(pers) == 0 {
 		return c.JSON(http.StatusBadRequest, map[string]string{
@@ -47,13 +50,13 @@ func getPerson(c echo.Context) error {
 
 }
 
-func getAddress(c echo.Context) error {
+func (cn *Controller) getAddress(c echo.Context) error {
 
 	id := c.Param("id")
 
 	fmt.Printf("id : %v", id)
 
-	adds, err := addressByID(id)
+	adds, err := cn.addressByID(id)
 
 	if err != nil || len(adds) == 0 {
 		return c.JSON(http.StatusBadRequest, map[string]string{
@@ -68,26 +71,26 @@ func getAddress(c echo.Context) error {
 }
 
 //POST
-func createPerson(c echo.Context) error {
+func (cn *Controller) createPerson(c echo.Context) error {
 	person := Person{}
 	if err := c.Bind(&person); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
-	addPerson(&person)
+	cn.addPerson(&person)
 	return c.JSON(http.StatusOK, map[string]string{
 		"firstname": person.Firstname,
 		"Lastname":  person.Lastname,
 	})
 }
 
-func createAddress(c echo.Context) error {
+func (cn *Controller) createAddress(c echo.Context) error {
 
 	id := c.Param("id")
 	address := Address{}
 	if err := c.Bind(&address); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
-	addAddress(&address, id)
+	cn.addAddress(&address, id)
 	return c.JSON(http.StatusOK, map[string]string{
 		"city":      address.City,
 		"state":     address.State,
@@ -96,15 +99,15 @@ func createAddress(c echo.Context) error {
 }
 
 //DELETE
-func deletePerson(c echo.Context) error {
+func (cn *Controller) deletePerson(c echo.Context) error {
 	id := c.Param("id")
-	dropPerson(id)
+	cn.dropPerson(id)
 	return c.JSON(http.StatusOK, "Person deleted")
 }
 
-func deleteAddress(c echo.Context) error {
+func (cn *Controller) deleteAddress(c echo.Context) error {
 	id := c.Param("id")
-	dropAddress(id)
+	cn.dropAddress(id)
 	return c.JSON(http.StatusOK, "Address deleted")
 }
 

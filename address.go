@@ -7,9 +7,9 @@ type Address struct {
 	PersonID string `json:"person_id,omitempty"`
 }
 
-func addressByID(id string) ([]*Address, error) {
+func (cn *Controller) addressByID(id string) ([]*Address, error) {
 
-	rows, err := db.Query("SELECT * FROM address WHERE person_id = $1", id)
+	rows, err := cn.db.Query("SELECT * FROM address WHERE person_id = $1", id)
 	if err != nil {
 		return nil, err
 	}
@@ -30,9 +30,9 @@ func addressByID(id string) ([]*Address, error) {
 	return adds, nil
 }
 
-func addAddress(a *Address, id string) error {
+func (cn *Controller) addAddress(a *Address, id string) error {
 
-	_, err := db.Exec("INSERT INTO address(city, state, person_id) VALUES ($1,$2,$3)", a.City, a.State, id)
+	_, err := cn.db.Exec("INSERT INTO address(city, state, person_id) VALUES ($1,$2,$3)", a.City, a.State, id)
 
 	if err != nil {
 		panic(err)
@@ -42,9 +42,9 @@ func addAddress(a *Address, id string) error {
 
 }
 
-func dropAddress(id string) error {
+func (cn *Controller) dropAddress(id string) error {
 
-	_, err := db.Exec("DELETE FROM address WHERE person_id = $1", id)
+	_, err := cn.db.Exec("DELETE FROM address WHERE person_id = $1", id)
 
 	if err != nil {
 		panic(err)

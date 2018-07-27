@@ -10,9 +10,9 @@ type Person struct {
 	Lastname  string `json:"lastname,omitempty"`
 }
 
-func allPersons() ([]*Person, error) {
+func (cn *Controller) allPersons() ([]*Person, error) {
 
-	rows, err := db.Query("SELECT * FROM person")
+	rows, err := cn.db.Query("SELECT * FROM person")
 	if err != nil {
 		return nil, err
 	}
@@ -33,9 +33,9 @@ func allPersons() ([]*Person, error) {
 	return pers, nil
 }
 
-func personByID(id string) ([]*Person, error) {
+func (cn *Controller) personByID(id string) ([]*Person, error) {
 
-	rows, err := db.Query("SELECT * FROM person WHERE id = $1", id)
+	rows, err := cn.db.Query("SELECT * FROM person WHERE id = $1", id)
 	if err != nil {
 		return nil, err
 	}
@@ -58,11 +58,11 @@ func personByID(id string) ([]*Person, error) {
 	return pers, nil
 }
 
-func addPerson(p *Person) error {
+func (cn *Controller) addPerson(p *Person) error {
 
 	fmt.Printf("NAME: %v, %v  ", p.Firstname, p.Lastname)
 
-	_, err := db.Exec("INSERT INTO person VALUES ($1, $2)", p.Firstname, p.Lastname)
+	_, err := cn.db.Exec("INSERT INTO person VALUES ($1, $2)", p.Firstname, p.Lastname)
 	if err != nil {
 		panic(err)
 	}
@@ -70,9 +70,9 @@ func addPerson(p *Person) error {
 
 }
 
-func dropPerson(id string) error {
+func (cn *Controller) dropPerson(id string) error {
 
-	_, err := db.Exec("DELETE FROM person WHERE id = $1", id)
+	_, err := cn.db.Exec("DELETE FROM person WHERE id = $1", id)
 	if err != nil {
 		panic(err)
 	}
