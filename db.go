@@ -16,7 +16,7 @@ func InitDB(dataSourceName string) {
 		log.Panic(err)
 	}
 
-	defer db.Close()
+	//defer db.Close()
 
 	if err = db.Ping(); err != nil {
 		log.Panic(err)

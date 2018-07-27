@@ -8,12 +8,20 @@ import (
 )
 
 //GET
+
+//func (cn *Controller) allPersons(....)  (error) { }
 func getAllPersons(c echo.Context) error {
 	pers, err := allPersons()
 
-	if err != nil || len(pers) == 0 {
+	if err != nil {
+		fmt.Println("ERROR QUERY ALL PERSONS")
+		return err
+	}
+
+	if len(pers) == 0 {
+
 		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "No person in the table",
+			"error": "VIDE",
 		})
 	}
 

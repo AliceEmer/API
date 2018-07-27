@@ -5,9 +5,13 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
+/*type Controller struct {
+	database *sql.db
+}*/
+
 func main() {
 
-	InitDB("postgres://aliceecourtemer:Chiberoua.13ass@localhost/persons?sslmode=disable")
+	InitDB("postgres://aliceecourtemer:password@localhost/persons?sslmode=disable")
 
 	// Echo instance
 	e := echo.New()
@@ -18,9 +22,9 @@ func main() {
 	e.Use(middleware.Logger())  //Loger defines the login interface
 	e.Use(middleware.Recover()) //recovering from panics anywhere in the chain.
 
-	api.GET("/people", getAllPersons)           //return all people tab /api/people
-	api.GET("/person/:id", getPerson)           //return a person depending on the ID
-	api.GET("/person/:id/address/", getAddress) //return a person address depending on the ID
+	api.GET("/people", getAllPersons)          //return all people tab /api/people
+	api.GET("/person/:id", getPerson)          //return a person depending on the ID
+	api.GET("/person/address/:id", getAddress) //return a person address depending on the ID
 
 	api.POST("/addperson", createPerson)       //creation of a person
 	api.POST("/addaddress/:id", createAddress) //creation of an address and link it to a person depending on the ID
