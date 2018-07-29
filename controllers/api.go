@@ -1,15 +1,16 @@
-package main
+package controllers
 
 import (
 	"fmt"
 	"net/http"
 
+	"github.com/AliceEmer/API2/models"
 	"github.com/labstack/echo"
 )
 
 //GET
 
-func (cn *Controller) getAllPersons(c echo.Context) error {
+func (cn *Controller) GetAllPersons(c echo.Context) error {
 	pers, err := cn.allPersons()
 
 	if err != nil {
@@ -24,16 +25,12 @@ func (cn *Controller) getAllPersons(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string][]*Person{
+	return c.JSON(http.StatusOK, map[string][]*models.Person{
 		"people": pers,
 	})
 }
 
-/*func getAllPersons(c echo.Context) error {
-
-}*/
-
-func (cn *Controller) getPerson(c echo.Context) error {
+func (cn *Controller) GetPerson(c echo.Context) error {
 
 	id := c.Param("id")
 	pers, err := cn.personByID(id)
@@ -44,13 +41,13 @@ func (cn *Controller) getPerson(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string][]*Person{
+	return c.JSON(http.StatusOK, map[string][]*models.Person{
 		"people": pers,
 	})
 
 }
 
-func (cn *Controller) getAddress(c echo.Context) error {
+func (cn *Controller) GetAddress(c echo.Context) error {
 
 	id := c.Param("id")
 
@@ -64,15 +61,15 @@ func (cn *Controller) getAddress(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string][]*Address{
+	return c.JSON(http.StatusOK, map[string][]*models.Address{
 		"address": adds,
 	})
 
 }
 
 //POST
-func (cn *Controller) createPerson(c echo.Context) error {
-	person := Person{}
+func (cn *Controller) CreatePerson(c echo.Context) error {
+	person := models.Person{}
 	if err := c.Bind(&person); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
@@ -83,10 +80,10 @@ func (cn *Controller) createPerson(c echo.Context) error {
 	})
 }
 
-func (cn *Controller) createAddress(c echo.Context) error {
+func (cn *Controller) CreateAddress(c echo.Context) error {
 
 	id := c.Param("id")
-	address := Address{}
+	address := models.Address{}
 	if err := c.Bind(&address); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
@@ -99,13 +96,13 @@ func (cn *Controller) createAddress(c echo.Context) error {
 }
 
 //DELETE
-func (cn *Controller) deletePerson(c echo.Context) error {
+func (cn *Controller) DeletePerson(c echo.Context) error {
 	id := c.Param("id")
 	cn.dropPerson(id)
 	return c.JSON(http.StatusOK, "Person deleted")
 }
 
-func (cn *Controller) deleteAddress(c echo.Context) error {
+func (cn *Controller) DeleteAddress(c echo.Context) error {
 	id := c.Param("id")
 	cn.dropAddress(id)
 	return c.JSON(http.StatusOK, "Address deleted")
