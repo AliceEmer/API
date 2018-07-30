@@ -11,24 +11,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func InitDB(dataSourceName string) *sql.DB {
-	var db *sql.DB
-	var err error
-
-	db, err = sql.Open("postgres", dataSourceName)
-	if err != nil {
-		log.Panic(err)
-	}
-
-	//defer db.Close()
-
-	if err = db.Ping(); err != nil {
-		log.Panic(err)
-	}
-
-	return db
-}
-
 func main() {
 
 	database := InitDB("postgres://aliceecourtemer:password@localhost/persons?sslmode=disable")
@@ -51,9 +33,27 @@ func main() {
 	api.POST("/addperson", cn.CreatePerson)       //creation of a person
 	api.POST("/addaddress/:id", cn.CreateAddress) //creation of an address and link it to a person depending on the ID
 
-	api.DELETE("/deleteperson/:id", cn.DeletePerson)   //delete a person depending on the ID
+	api.DELETE("/deleteperson/:id", cn.DeletePerson)   //delete a person and its address depending on the ID
 	api.DELETE("/deleteaddress/:id", cn.DeleteAddress) //delete an address depending on the ID
 
 	// Start an HTTP server
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+func InitDB(dataSourceName string) *sql.DB {
+	var db *sql.DB
+	var err error
+
+	db, err = sql.Open("postgres", dataSourceName)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	//defer db.Close()
+
+	if err = db.Ping(); err != nil {
+		log.Panic(err)
+	}
+
+	return db
 }

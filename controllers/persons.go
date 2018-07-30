@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo"
 )
 
+//GetAllPersons ... GET
 func (cn *Controller) GetAllPersons(c echo.Context) error {
 
 	rows, err := cn.DB.Query("SELECT * FROM person")
@@ -41,6 +42,7 @@ func (cn *Controller) GetAllPersons(c echo.Context) error {
 	})
 }
 
+//GetPersonByID ... GET
 func (cn *Controller) GetPersonByID(c echo.Context) error {
 
 	id := c.Param("id")
@@ -76,6 +78,7 @@ func (cn *Controller) GetPersonByID(c echo.Context) error {
 	})
 }
 
+//CreatePerson ... POST
 func (cn *Controller) CreatePerson(c echo.Context) error {
 
 	person := models.Person{}
@@ -95,6 +98,7 @@ func (cn *Controller) CreatePerson(c echo.Context) error {
 
 }
 
+//DeletePerson ... DELETE
 func (cn *Controller) DeletePerson(c echo.Context) error {
 
 	id := c.Param("id")

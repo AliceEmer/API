@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo"
 )
 
+//GetAddressByPerson ... GET
 func (cn *Controller) GetAddressByPerson(c echo.Context) error {
 
 	id := c.Param("id")
@@ -41,6 +42,7 @@ func (cn *Controller) GetAddressByPerson(c echo.Context) error {
 	})
 }
 
+//CreateAddress ... POST
 func (cn *Controller) CreateAddress(c echo.Context) error {
 
 	id := c.Param("id")
@@ -63,6 +65,7 @@ func (cn *Controller) CreateAddress(c echo.Context) error {
 
 }
 
+//DeleteAddress ... DELETE
 func (cn *Controller) DeleteAddress(c echo.Context) error {
 
 	id := c.Param("id")
