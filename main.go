@@ -44,9 +44,9 @@ func main() {
 	e.Use(middleware.Logger())  //Loger defines the login interface
 	e.Use(middleware.Recover()) //recovering from panics anywhere in the chain.
 
-	api.GET("/people", cn.GetAllPersons)          //return all people tab /api/people
-	api.GET("/person/:id", cn.GetPerson)          //return a person depending on the ID
-	api.GET("/person/address/:id", cn.GetAddress) //return a person address depending on the ID
+	api.GET("/people", cn.GetAllPersons)                  //return all people tab /api/people
+	api.GET("/person/:id", cn.GetPersonByID)              //return a person depending on the ID
+	api.GET("/person/address/:id", cn.GetAddressByPerson) //return a person address depending on the ID
 
 	api.POST("/addperson", cn.CreatePerson)       //creation of a person
 	api.POST("/addaddress/:id", cn.CreateAddress) //creation of an address and link it to a person depending on the ID
@@ -57,6 +57,3 @@ func main() {
 	// Start an HTTP server
 	e.Logger.Fatal(e.Start(":8080"))
 }
-
-//comment on lit result de Exec ?
-//Struct vraiment utile ? creation de struc à chaque fois qu'on ne réutilise plus
